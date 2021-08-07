@@ -1,5 +1,5 @@
-#ifndef RISCV64_H__
-#define RISCV64_H__
+#ifndef RISCV_H__
+#define RISCV_H__
 
 #include <stdint.h>
 
@@ -16,5 +16,10 @@ static inline void outl(uintptr_t addr, uint32_t data) { *(volatile uint32_t *)a
 #define PTE_W 0x04
 #define PTE_X 0x08
 #define PTE_U 0x10
+
+enum { MODE_U, MODE_S, MODE_M = 3 };
+#define MSTATUS_MXR  (1 << 19)
+#define MSTATUS_SUM  (1 << 18)
+#define MSTATUS_MPRV (1 << 17)
 
 #endif
