@@ -30,7 +30,30 @@ int atoi(const char* nptr) {
 }
 
 void *malloc(size_t size) {
-  panic("Not implemented");
+  static void *program_break = 0;
+  if (program_break == 0) {
+    if (heap.start == 0) return 0;
+    program_break = heap.start;
+    //#endif
+  }
+  size = (size + 15) & ~15;
+  void *mem = program_break;
+  program_break += size;
+  //assert(program_break <= heap.end, "Run out of memory");
+  return mem;
+}
+
+void *realloc(void *ptr, size_t size) {
+  if (size == 0) {
+    free(ptr);
+    return NULL;
+  }
+  void *new_ptr = malloc(size);
+  if (ptr != 0) {
+    memcpy(new_ptr, ptr, size);
+    free(ptr);
+  }
+  return new_ptr;
 }
 
 void free(void *ptr) {
