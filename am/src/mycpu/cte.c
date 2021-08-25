@@ -7,6 +7,18 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     switch (c->cause) {
+      case 0x8000000000000007:
+        ev.event = EVENT_IRQ_TIMER; break;
+      case 11:
+        if (c->GPR1 == -1)
+        {
+          ev.event = EVENT_YIELD;
+          c->epc += 4;
+          printf("[INFO] EVENT_YIELD!\n");
+        }
+        else 
+          ev.event = EVENT_SYSCALL;
+        break;
       default: ev.event = EVENT_ERROR; break;
     }
 
