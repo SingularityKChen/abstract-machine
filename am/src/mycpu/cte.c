@@ -10,7 +10,7 @@ Context* __am_irq_handle(Context *c) {
       case 0x8000000000000007:
         ev.event = EVENT_IRQ_TIMER; break;
       case 11:
-        if (c->GPR1 == -1)
+        if (c->GPR1 == 0)
         {
           ev.event = EVENT_YIELD;
           c->epc += 4;
